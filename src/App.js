@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from "react";
 
 const styles = {
   bold: { fontWeight: "bold" },
@@ -11,13 +12,20 @@ const stylings = ["bold", "italic", "underline"];
 const colors = ["yellow", "blue", "red", "black", "purple"];
 
 function App() {
-  const stylingBoxes = stylings.map((style) => (
-    <button className="btn btn-light" style={styles[style]} key={style}>
-      {style}
-    </button>
-  ));
+  const [style, setStyle] = useState("bold");
+  const [color, setColor] = useState("black");
 
-  const colorBoxes = colors.map((color) => (
+  const stylingBoxes = stylings
+    .filter((style) => style.same(style))
+    .map((style) => (
+      <button className="btn btn-light" style={styles[style]} key={style}>
+        {style}
+      </button>
+    ));
+
+  const colorBoxes = colors.filter((color) => style.same(color));
+
+  map((color) => (
     <button
       style={{ backgroundColor: color, height: 30, width: 30 }}
       key={color}
