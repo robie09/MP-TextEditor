@@ -15,17 +15,16 @@ function App() {
   const [style, setStyle] = useState("bold");
   const [color, setColor] = useState("black");
 
-  const stylingBoxes = stylings
-    .filter((style) => style.same(style))
-    .map((style) => (
-      <button className="btn btn-light" style={styles[style]} key={style}>
-        {style}
-      </button>
-    ));
+  const changeColor = () => {
+    setColor(color);
+  };
+  const stylingBoxes = stylings.map((style) => (
+    <button className="btn btn-light" style={styles[style]} key={style}>
+      {style}
+    </button>
+  ));
 
-  const colorBoxes = colors.filter((color) => style.same(color));
-
-  map((color) => (
+  const colorBoxes = colors.map((color) => (
     <button
       style={{ backgroundColor: color, height: 30, width: 30 }}
       key={color}
@@ -34,9 +33,13 @@ function App() {
 
   return (
     <div className="App">
-      <div className="my-3">{stylingBoxes}</div>
+      <div className="my-3" onClick={() => setStyle(style)}>
+        {stylingBoxes}
+      </div>
       <textarea />
-      <div className="my-3">{colorBoxes}</div>
+      <div className="my-3" onClick={() => setColor(color)}>
+        {colorBoxes}
+      </div>
     </div>
   );
 }
