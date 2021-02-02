@@ -12,14 +12,25 @@ const stylings = ["bold", "italic", "underline"];
 const colors = ["yellow", "blue", "red", "black", "purple"];
 
 function App() {
-  const [style, setStyle] = useState("bold");
+  //create object
+  const [style, setStyle] = useState({ Style: fontStyle, stylex: "italic" });
   const [color, setColor] = useState("black");
 
-  const changeColor = () => {
-    setColor(color);
+  var stylelist = [];
+  const handelChange = (tStyle) => {
+    stylelist.filter((style) => style === null);
+    styles.map((style) => tStyle === style);
+    stylelist.push(setStyle[styles[tStyle]]);
+    setStyle(stylelist);
   };
+
   const stylingBoxes = stylings.map((style) => (
-    <button className="btn btn-light" style={styles[style]} key={style}>
+    <button
+      className="btn btn-light"
+      style={styles[style]}
+      key={style}
+      onClick={() => handelChange(style)}
+    >
       {style}
     </button>
   ));
@@ -28,18 +39,17 @@ function App() {
     <button
       style={{ backgroundColor: color, height: 30, width: 30 }}
       key={color}
+      onClick={() => setColor(color)}
     />
   ));
 
   return (
     <div className="App">
-      <div className="my-3" onClick={() => setStyle(style)}>
+      <div className="my-3" style={style}>
         {stylingBoxes}
       </div>
-      <textarea />
-      <div className="my-3" onClick={() => setColor(color)}>
-        {colorBoxes}
-      </div>
+      <textarea value="text" style={{ color: color, ...styles }} />
+      <div className="my-3">{colorBoxes}</div>
     </div>
   );
 }
