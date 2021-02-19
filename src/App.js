@@ -8,20 +8,29 @@ const styles = {
 };
 
 const stylings = ["bold", "italic", "underline"];
-
 const colors = ["yellow", "blue", "red", "black", "purple"];
 
 function App() {
-  //create object
-  const [style, setStyle] = useState({ Style: fontStyle, stylex: "italic" });
-  const [color, setColor] = useState("black");
+  let [textStyle, setStyle] = useState({});
+  const [textColor, setColor] = useState("black");
 
-  var stylelist = [];
-  const handelChange = (tStyle) => {
-    stylelist.filter((style) => style === null);
-    styles.map((style) => tStyle === style);
-    stylelist.push(setStyle[styles[tStyle]]);
-    setStyle(stylelist);
+  const changeStyle = (style) => {
+    const textStyleArray = Object.values(textStyle);
+    const found = textStyleArray.find((elemnt) => {
+      console.log("elemnt: ", elemnt);
+      return elemnt.includes(style);
+    });
+    if (found === undefined) {
+      setStyle((textStyle) => (textStyle = { ...textStyle, ...styles[style] }));
+    } else {
+      const obj = styles[style];
+      for (const key in obj) {
+        if (style === obj[key]) {
+          delete textStyle[key];
+        }
+      }
+      setStyle((textStyle) => (textStyle = { ...textStyle }));
+    }
   };
 
   const stylingBoxes = stylings.map((style) => (
@@ -29,7 +38,7 @@ function App() {
       className="btn btn-light"
       style={styles[style]}
       key={style}
-      onClick={() => handelChange(style)}
+      onClick={() => changeStyle(style)}
     >
       {style}
     </button>
@@ -45,10 +54,8 @@ function App() {
 
   return (
     <div className="App">
-      <div className="my-3" style={style}>
-        {stylingBoxes}
-      </div>
-      <textarea value="text" style={{ color: color, ...styles }} />
+      <div className="my-3">{stylingBoxes}</div>
+      <textarea style={{ color: textColor, ...textStyle }} />
       <div className="my-3">{colorBoxes}</div>
     </div>
   );
